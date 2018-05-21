@@ -38,7 +38,7 @@ body { background-color: rgb(204, 204, 204)}
 .article {
     list-style-type: none;
     padding: 10px;
-    border-top: 1 solid #CCC;
+    border-top: 1px solid #CCC;
 }
 
 .article:first-child {

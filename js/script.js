@@ -36,13 +36,35 @@ function loadData() {
             articles = data.response.docs;
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
-                $nytElem.append('<li class="article">' + '<a href="' + article.web_url + '">' + article.headline.main + '</a>' + '<p>' + article.snippet + '</p' + '</li>');
+                $nytElem.append('<li class = "article">' + '<a href="' + article.web_url + '">' + article.headline.main + '</a>' + '<p>' + article.snippet + '</p' + '</li>');
             }
         }).fail(function(err) {
             $nytHeaderElem.text('New York Times Article Could Not Be Loaded!')
         });
 
     // wiki ajax request goes here
+    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + cityStr + '&format=json&callback=wikiCallback';
+
+    var wikiRequestTimeout = setTimeout(function(){
+        $wikiElem.text('failed to get wikipedia resources');
+    }, 8000);
+
+    $.ajax({
+        url: wikiUrl,
+        dataType: "jsonp",
+        success: function(response) {
+            console.log(response);
+            var articleList = response[1];
+            var responseUrl = response[3];
+            for (let i = 0; i < articleList.length; i++) {
+                title = articleList[i];
+                $wikiElem.append('<li><a href="' + responseUrl[i] + '">' + title + '</a></li>');
+            }
+
+            clearTimeout(wikiRequestTimeout);
+        } 
+        
+    });
 
 
 
